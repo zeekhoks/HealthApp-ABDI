@@ -24,6 +24,15 @@ const getPlan = async (req, res) => {
   }
 };
 
+const getPlans = async(req, res) => {
+  try{
+    const data = await planService.getAllPlans();
+    res.status(200).json(data);
+  } catch(error) {
+    res.status(503).json({ errorMessage: "Service currently unavailable" });
+  }
+}
+
 const createPlan = async (req, res) => {
   try {
     const isPlanExists = await planService.getPlan(req.body.objectId);
@@ -65,6 +74,7 @@ const deletePlan = async (req, res) => {
 
 module.exports = {
   getPlan: getPlan,
+  getPlans: getPlans,
   createPlan: createPlan,
   deletePlan: deletePlan,
 };
