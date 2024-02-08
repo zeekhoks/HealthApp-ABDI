@@ -16,6 +16,11 @@ const getPlan = async (objectId) => {
   return plan;
 };
 
+const getAllPlans = async () => {
+  const plans = await Plan.find({});
+  return plans;
+}
+
 const deletePlan = async (objectId) => {
   const deletedPlan = await Plan.deleteOne({
     objectId: objectId,
@@ -24,4 +29,4 @@ const deletePlan = async (objectId) => {
   return deletedPlan;
 };
 
-module.exports = { savePlan, getPlan, deletePlan };
+module.exports = { savePlan, getPlan, getAllPlans, deletePlan };
