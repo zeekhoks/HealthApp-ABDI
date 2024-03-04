@@ -17,7 +17,7 @@ const getPlan = async (objectId) => {
 };
 
 const getAllPlans = async () => {
-  const plans = await Plan.find({});
+  const plans = await Plan.find();
   return plans;
 }
 
