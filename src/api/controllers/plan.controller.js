@@ -24,14 +24,18 @@ const getPlan = async (req, res) => {
   }
 };
 
-const getPlans = async(req, res) => {
-  try{
+const getPlans = async (req, res) => {
+  try {
     const data = await planService.getAllPlans();
-    res.status(200).json(data);
-  } catch(error) {
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      res.status(404).json({ errorMessage: "Plan not found" });
+    }
+  } catch (error) {
     res.status(503).json({ errorMessage: "Service currently unavailable" });
   }
-}
+};
 
 const createPlan = async (req, res) => {
   try {
@@ -40,7 +44,6 @@ const createPlan = async (req, res) => {
       res.status(400).json({ errorMessage: "Plan already exists" });
       return;
     }
-    console.log("In Save Plan Service");
     const data = await planService.savePlan(req.body);
     res.status(201).json(data);
   } catch (error) {
@@ -56,13 +59,14 @@ const deletePlan = async (req, res) => {
     const generatedEtag = etag(JSON.stringify(plan));
     const receivedEtag = req.headers["if-match"];
     if (plan) {
-      if(generatedEtag === receivedEtag){
+      if (generatedEtag === receivedEtag) {
         const data = await planService.deletePlan(key);
         res.status(204).send();
-      }else {
-        res.status(409).json({errorMessage : "Conflict - latest data not available"});
+      } else {
+        res
+          .status(409)
+          .json({ errorMessage: "Conflict - latest data not available" });
       }
-      
     } else {
       res.status(404).json({ errorMessage: "Plan not found" });
     }
