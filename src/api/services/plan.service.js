@@ -29,4 +29,10 @@ const deletePlan = async (objectId) => {
   return deletedPlan;
 };
 
-module.exports = { savePlan, getPlan, getAllPlans, deletePlan };
+const updatePlan = async (plan) => {
+
+  const updatedPlan = await Plan.findOneAndUpdate({ objectId: plan.objectId}, plan, { new:true })
+  return updatedPlan;
+}
+
+module.exports = { savePlan, getPlan, getAllPlans, deletePlan, updatePlan };
